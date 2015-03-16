@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Grocery List</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_view">ViewActivity</string>
+    <string name="enter_label">Enter the name of a grocery item</string>
+    <string name="add_button">Add Item</string>
+    <string name="preview_button">Preview list</string>
+    <string name="amount_label">How many do you need?</string>
+    <string name="text_button">Text me my list</string>
+    <string name="items_label">Items in your grocery list</string>
+    <string name="phone_label">Enter your phone number</string>
+
+</resources>
