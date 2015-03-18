@@ -1,5 +1,6 @@
 package edu.css.smueggenberg.grocerylist;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -7,6 +8,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
+
+import java.util.ArrayList;
 
 
 public class EntryActivity extends ActionBarActivity {
@@ -19,6 +22,9 @@ public class EntryActivity extends ActionBarActivity {
     Button btnAdd;
     Button btnPreview;
     Button btnText;
+
+    ArrayList<String> items;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,14 +58,18 @@ public class EntryActivity extends ActionBarActivity {
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                
+                items.add(txtItem.getText().toString());
             }
         });
 
         btnPreview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent i = new Intent(EntryActivity.this, ViewActivity.class);
 
+                i.putStringArrayListExtra("groceryItems", items);
+
+                startActivity(i);
             }
         });
 
