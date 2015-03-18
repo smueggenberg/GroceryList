@@ -1,6 +1,7 @@
 package edu.css.smueggenberg.grocerylist;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -40,6 +41,8 @@ public class EntryActivity extends ActionBarActivity {
         btnPreview = (Button) findViewById(R.id.btnPreview);
         btnText = (Button) findViewById(R.id.btnText);
 
+        items = new ArrayList<>();
+
         sbAmount.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                 @Override
                 public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
@@ -59,6 +62,7 @@ public class EntryActivity extends ActionBarActivity {
             @Override
             public void onClick(View view) {
                 items.add(txtItem.getText().toString());
+                txtItem.setText("");
             }
         });
 
@@ -76,7 +80,22 @@ public class EntryActivity extends ActionBarActivity {
         btnText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // If the number in the "phone" text field has enough digits to be a real number
+                if (txtPhone.getText().toString().length() == 10) {
+                    Intent i = new Intent(Intent.ACTION_VIEW);
 
+                    // Enter the phone number entered in the phone number text field
+                    i.setData(Uri.parse("sms:" + txtPhone.getText().toString()));
+
+                    // Add the message to the extras
+
+                    // TODO: put the message into the extras using "createGroceryList"
+                    // i.putExtra
+
+                    if(i.resolveActivity(getPackageManager()) != null){
+                        startActivity(i);
+                    }
+                }
             }
         });
     }
@@ -84,4 +103,7 @@ public class EntryActivity extends ActionBarActivity {
     public void setNumberLabel(){
         lblNumber.setText(Integer.toString(sbAmount.getProgress()));
     }
+
+    // TODO: finish the "createGroceryList" method. (Converts ArrayList items into an appropriate string message
+    // public String createGroceryList()
 }

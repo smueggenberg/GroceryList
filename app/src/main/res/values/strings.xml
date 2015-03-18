@@ -11,6 +11,6 @@
     <string name="amount_label">How many do you need?</string>
     <string name="text_button">Text me my list</string>
     <string name="items_label">Items in your grocery list</string>
-    <string name="phone_label">Enter your phone number</string>
+    <string name="phone_label">Enter your phone number (Format: ##########)</string>
 
 </resources>
