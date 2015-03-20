@@ -9,12 +9,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 
 public class EntryActivity extends ActionBarActivity {
 
+    // Creates all the variables that will be used in the app
     TextView lblNumber;
     EditText txtItem;
     EditText txtPhone;
@@ -32,40 +34,35 @@ public class EntryActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_entry);
 
-        lblNumber = (TextView) findViewById(R.id.lblNumber);
+        // Links the widgets in the app to the code
         txtItem = (EditText) findViewById(R.id.txtItem);
         txtPhone = (EditText) findViewById(R.id.txtPhone);
-        sbAmount = (SeekBar) findViewById(R.id.sbAmount);
-
         btnAdd = (Button) findViewById(R.id.btnAdd);
         btnPreview = (Button) findViewById(R.id.btnPreview);
         btnText = (Button) findViewById(R.id.btnText);
 
+        // Contains an array of the grocery items
         items = new ArrayList<>();
 
-        sbAmount.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-                @Override
-                public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                    setNumberLabel();
-                }
-
-                @Override
-                public void onStartTrackingTouch(SeekBar seekBar) {}
-
-                @Override
-                public void onStopTrackingTouch(SeekBar seekBar) {}
-            }
-
-        );
-
+        /**
+         * Sets the on click listener for the "Add" button
+         * This adds the current text above to the grocery list
+         */
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                items.add(txtItem.getText().toString());
+                // If the text is not empty, add the item to the list
+                if (!txtItem.getText().toString().equals("")) {
+                    items.add(txtItem.getText().toString());
+                }
                 txtItem.setText("");
             }
         });
 
+        /**
+         * Sets the on click listener for the "Preview List" button
+         * This calls a new activity within the app that displays all the items added so far
+         */
         btnPreview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -77,33 +74,50 @@ public class EntryActivity extends ActionBarActivity {
             }
         });
 
+        /**
+         * Sets the on click listener for the "Text me my list" button
+         * This calls the messenger app on the phone using the user's number and sets the message to the items in the grocery list
+         */
         btnText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // If the number in the "phone" text field has enough digits to be a real number
+                // Else display an error message
                 if (txtPhone.getText().toString().length() == 10) {
                     Intent i = new Intent(Intent.ACTION_VIEW);
 
-                    // Enter the phone number entered in the phone number text field
+                    // Add the phone number entered in the phone number text field
                     i.setData(Uri.parse("sms:" + txtPhone.getText().toString()));
 
                     // Add the message to the extras
-
-                    // TODO: put the message into the extras using "createGroceryList"
-                    // i.putExtra
+                    i.putExtra("sms_body", createGroceryList());
 
                     if(i.resolveActivity(getPackageManager()) != null){
                         startActivity(i);
                     }
+                }else{
+                    Toast.makeText(EntryActivity.this, "Please enter a valid 10 digit number in the proper format", Toast.LENGTH_LONG).show();
                 }
             }
         });
     }
 
-    public void setNumberLabel(){
-        lblNumber.setText(Integer.toString(sbAmount.getProgress()));
-    }
+    /**
+     * Creates a grocery list from a string array of grocery items
+     * @return The string containing the formatted grocery list
+     */
+    public String createGroceryList(){
+        String list = "";
 
-    // TODO: finish the "createGroceryList" method. (Converts ArrayList items into an appropriate string message
-    // public String createGroceryList()
+        for (int i = 0; i < items.size(); i++){
+            if (i + 1 == items.size()){
+                list += items.get(i);
+            }else {
+                list += items.get(i)
+                        + "\n";
+            }
+        }
+
+        return list;
+    }
 }
