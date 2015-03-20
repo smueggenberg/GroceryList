@@ -16,11 +16,9 @@ import java.util.ArrayList;
 
 public class EntryActivity extends ActionBarActivity {
 
-    // Creates all the variables that will be used in the app
-    TextView lblNumber;
+    // Creates all the global variables that will be used in the activity
     EditText txtItem;
     EditText txtPhone;
-    SeekBar sbAmount;
 
     Button btnAdd;
     Button btnPreview;
